@@ -17,8 +17,7 @@ mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: true,
-    ssl: (req.secure || req.headers['x-forwarded-proto'] === 'https')
+    useUnifiedTopology: true
 }).then(() => {
     console.log('DB connection successful!');
 });
