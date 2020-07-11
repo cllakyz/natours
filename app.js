@@ -7,6 +7,7 @@ const mongoSnt      = require('express-mongo-sanitize');
 const xss           = require('xss-clean');
 const hpp           = require('hpp');
 const cookieParser  = require('cookie-parser');
+const bodyParser    = require('body-parser');
 const compression   = require('compression');
 const cors          = require('cors');
 
@@ -18,6 +19,8 @@ const userRouter    = require('./routes/userRoutes');
 const reviewRouter  = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter    = require('./routes/viewRoutes');
+
+const bookingController = require('./controllers/bookingController');
 
 // Start express app
 const app = express();
@@ -57,6 +60,8 @@ const limiter = rateLimit({
     message: 'Too many request from this IP, please try again in an hour!'
 });
 app.use('/api', limiter);
+
+app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckOut);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
